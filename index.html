@@ -457,31 +457,39 @@
             color: var(--text-light);
         }
 
-   input[type="date"] {
-    -webkit-appearance: none;
-    appearance: none;
-    min-height: 3rem;
-    position: relative;
-    padding-right: 2.5rem; /* Espaço para o ícone */
+input[type="date"] {
+    width: 100%;
+    padding: 0.85rem 3rem 0.85rem 1.25rem; /* Mais espaço à direita */
     background-color: var(--background);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     color: var(--text);
-    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    -webkit-appearance: none;
+    appearance: none;
+    min-height: 3rem;
 }
 
+.input-group.date-field {
+    position: relative;
+}
 
-input[type="date"]::-webkit-calendar-picker-indicator {
+.calendar-icon {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    color: transparent;
-    background: transparent;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-color: var(--text-light);
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E") no-repeat center;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E") no-repeat center;
+    pointer-events: none;
+    opacity: 0.8;
 }
+
+
 
 input[type="date"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-clear-button {
@@ -490,15 +498,18 @@ input[type="date"]::-webkit-clear-button {
 }
 
 
+
 input[type="date"]:not(:valid):before {
     content: attr(placeholder);
     color: var(--text-lighter);
     position: absolute;
-    left: 1rem;
+    left: 1.25rem;
     top: 50%;
     transform: translateY(-50%);
+    pointer-events: none;
 }
 
+/* Foco no campo */
 input[type="date"]:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3);
@@ -643,19 +654,7 @@ input[type="date"]:focus {
     position: relative;
 }
 
-.input-group:has(input[type="date"])::after {
-    content: "";
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-    background-color: var(--text-light);
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E") no-repeat center;
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E") no-repeat center;
-    pointer-events: none;
-}
+
 
             .app-container {
                 padding: 1rem;
