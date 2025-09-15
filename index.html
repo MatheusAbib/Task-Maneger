@@ -1,15 +1,12 @@
-
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NexusTask - Gerenciador Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-
-    <link rel="icon" type="image" sizes="16x16" href="tarefa.png">
+    <link rel="icon" type="image" sizes="16x16" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✅</text></svg>">
     <link rel="stylesheet" href="css/tarefas.css">
-
-
 </head>
 <body>
     <div class="app-container">
@@ -20,36 +17,66 @@
             
             <div class="main-content">
                 <div class="add-task">
-    <div class="task-fields">
-        <div class="input-group full-width">
-            <label for="new-task">Tarefa</label>
-            <input type="text" id="new-task" placeholder="O que precisa ser feito?" required>
-        </div>
-        
-        <div class="input-group">
-            <label for="due-date">Data</label>
-            <input type="date" id="due-date" class="date-input">
-        </div>
-        
-        <div class="input-group">
-            <label for="priority">Prioridade</label>
-            <select id="priority">
-                <option value="low">Baixa</option>
-                <option value="medium" selected>Média</option>
-                <option value="high">Alta</option>
-            </select>
-        </div>
-        
-        <div class="input-group full-width">
-            <label for="description">Descrição</label>
-            <input type="text" id="description" placeholder="Detalhes (opcional)">
-        </div>
-    </div>
-    
-    <div class="add-task-actions">
-        <button type="button" onclick="addTask()">Adicionar Tarefa</button>
-    </div>
-</div>
+                    <div class="task-fields">
+                        <div class="input-group">
+                            <label for="new-task">Tarefa</label>
+                            <input type="text" id="new-task" placeholder="O que precisa ser feito?" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="due-date">Data</label>
+                            <input type="date" id="due-date" class="date-input">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="priority">Prioridade</label>
+                            <select id="priority">
+                                <option value="low">Baixa</option>
+                                <option value="medium" selected>Média</option>
+                                <option value="high">Alta</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="category">Categoria/Projeto</label>
+                            <input type="text" id="category" placeholder="Ex: Faculdade, Trabalho...">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="responsible">Responsável</label>
+                            <input type="text" id="responsible" placeholder="Quem fará a tarefa?">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="time-estimated">Tempo estimado</label>
+                            <input type="text" id="time-estimated" placeholder="Ex: 2h, 30min">
+                        </div>
+
+                        <div class="input-group half-width">
+                            <label for="description">Descrição</label>
+                            <input type="text" id="description" placeholder="Detalhes (opcional)">
+                        </div>
+
+                        <div class="input-group half-width">
+                            <label for="recurrence">Recorrência</label>
+                            <select id="recurrence">
+                                <option value="none" selected>Nenhuma</option>
+                                <option value="Diária">Diária</option>
+                                <option value="Semanal">Semanal</option>
+                                <option value="Mensal">Mensal</option>
+                            </select>
+                        </div>
+
+                        <!-- Botão para abrir modal -->
+                        <div class="input-group half-width">
+                            <button type="button" onclick="openNewTaskStepsModal()">Adicionar Passos</button>
+                        </div>
+                    </div>
+
+                    <div class="add-task-actions">
+                        <button type="button" onclick="addTask()">Adicionar Tarefa</button>
+                    </div>
+                </div>
                 
                 <div class="tasks-container">
                     <div class="tasks-header">
@@ -72,6 +99,47 @@
 
     <button class="fab" id="fab-button">+</button>
 
+    <!-- Modal de passos para tarefas existentes -->
+    <div id="steps-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Passos da Tarefa</h3>
+                <button class="modal-close" onclick="closeStepsModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="steps-container"></div>
+            <div class="modal-footer">
+                <button class="step-add" onclick="addStep()">
+                    <span>+</span> Adicionar Passo
+                </button>
+                <button class="modal-btn modal-btn-primary" onclick="closeStepsModal()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmação de exclusão -->
+    <div id="delete-confirm-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirmar Exclusão</h3>
+                <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir esta tarefa? Esta ação não pode ser desfeita.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" onclick="closeDeleteModal()">Cancelar</button>
+                <button class="modal-btn modal-btn-danger" onclick="confirmDelete()">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificação -->
+    <div id="notification" class="notification">
+        <span class="notification-icon">✓</span>
+        <span class="notification-message" id="notification-message">Tarefa criada com sucesso!</span>
+    </div>
+
 <script src="js/tarefas.js"></script>
+
 </body>
 </html>
