@@ -530,3 +530,10 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
+
+        .task-category {
+            font-size: 0.9em;      
+            color: #6c757c;        
+            margin-left: 5px;       
+            font-weight: normal;
+        }
