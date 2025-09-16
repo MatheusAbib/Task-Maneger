@@ -6,127 +6,160 @@
     // ----------------------------
     // Funções de Tarefas
     // ----------------------------
-    function addTask() {
-        const input = document.getElementById("new-task");
-        const description = document.getElementById("description");
-        const dueDate = document.getElementById("due-date");
-        const priority = document.getElementById("priority");
-        const responsible = document.getElementById("responsible");
-        const timeEstimated = document.getElementById("time-estimated");
-        const recurrence = document.getElementById("recurrence");
-        const tasksWrapper = document.getElementById("tasks-wrapper");
-        const emptyState = document.getElementById("empty-state");
+   function addTask() {
+    const input = document.getElementById("new-task");
+    const description = document.getElementById("description");
+    const dueDate = document.getElementById("due-date");
+    const priority = document.getElementById("priority");
+    const responsible = document.getElementById("responsible");
+    const timeEstimated = document.getElementById("time-estimated");
+    const recurrence = document.getElementById("recurrence");
+    const category = document.getElementById("category");
+    const tasksWrapper = document.getElementById("tasks-wrapper");
+    const emptyState = document.getElementById("empty-state");
 
-        const taskName = input.value.trim();
-        const taskDescription = description.value.trim();
-        const taskDueDate = dueDate.value;
-        const taskPriority = priority.value;
-        const taskResponsible = responsible.value.trim();
-        const taskTimeEstimated = timeEstimated.value.trim();
-        const taskRecurrence = recurrence.value;
+    const taskName = input.value.trim();
+    const taskDescription = description.value.trim();
+    const taskDueDate = dueDate.value;
+    const taskPriority = priority.value;
+    const taskResponsible = responsible.value.trim();
+    const taskTimeEstimated = timeEstimated.value.trim();
+    const taskRecurrence = recurrence.value;
+    const taskCategory = category.value.trim();
 
-        if (taskName !== "") {
-            if (emptyState) emptyState.style.display = "none";
+    if (taskName !== "") {
+        if (emptyState) emptyState.style.display = "none";
 
-            const taskElement = document.createElement("div");
-            taskElement.className = "task";
+        const taskElement = document.createElement("div");
+        taskElement.className = "task";
 
-            // Formatar data
-            let formattedDate = "Sem data definida";
-            if (taskDueDate) {
-                const dateObj = new Date(taskDueDate);
-                formattedDate = dateObj.toLocaleDateString('pt-BR', {
-                    weekday: 'short',
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric'
-                });
-            }
+        // Formatar data
+        let formattedDate = "Sem data definida";
+        if (taskDueDate) {
+            const dateObj = new Date(taskDueDate);
+            formattedDate = dateObj.toLocaleDateString('pt-BR', {
+                weekday: 'short',
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
 
-            // Definir prioridade
-            let priorityClass = "priority-medium";
-            let priorityText = "Média Prioridade";
-            if (taskPriority === "high") {
-                priorityClass = "priority-high";
-                priorityText = "Alta Prioridade";
-            } else if (taskPriority === "medium") {
-                priorityClass = "priority-medium";
-                priorityText = "Média Prioridade";
-            } else if (taskPriority === "low") {
-                priorityClass = "priority-low";
-                priorityText = "Baixa Prioridade";
-            }
+        // Definir prioridade
+        let priorityClass = "priority-medium";
+        let priorityText = "Média Prioridade";
+        if (taskPriority === "high") {
+            priorityClass = "priority-high";
+            priorityText = "Alta Prioridade";
+        } else if (taskPriority === "medium") {
+            priorityClass = "priority-medium";
+            priorityText = "Média Prioridade";
+        } else if (taskPriority === "low") {
+            priorityClass = "priority-low";
+            priorityText = "Baixa Prioridade";
+        }
 
-            let stepsListHTML = "";
-            if (steps.length > 0) {
-                stepsListHTML = `<ul class="task-steps">${steps.map(s => `<li>${s}</li>`).join('')}</ul>`;
-            }
+        // Montar HTML dos passos
+        let stepsListHTML = "";
+        if (steps.length > 0) {
+            stepsListHTML = `<ul class="task-steps">${steps.map(s => `<li>${s}</li>`).join('')}</ul>`;
+        }
 
-            taskElement.innerHTML = `
-                <div class="task-header">
-                    <input type="checkbox" class="task-item" onchange="toggleTaskComplete(this)">
-                    <div class="task-content">
-                        <span class="task-priority ${priorityClass}">${priorityText}</span>
-                        <h3 class="task-title">${taskName}</h3>
-                        ${taskDescription ? `<p class="task-description">${taskDescription}</p>` : ''}
-                        ${stepsListHTML}
-                        <div class="task-meta">
-                            <span class="task-date">${formattedDate}</span>
-                            ${taskResponsible ? `<span class="task-responsible">Responsável: ${taskResponsible}</span>` : ''}
-                            ${taskTimeEstimated ? `<span class="task-time">Tempo: ${taskTimeEstimated}</span>` : ''}
-                            ${taskRecurrence && taskRecurrence !== "none" ? `<span class="task-recurrence">Recorrência: ${taskRecurrence}</span>` : ''}
-                            <div class="task-actions">
-                                <button class="task-btn steps-btn" onclick="openTaskStepsModal(this)" title="Ver passos">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
-                                         stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M12 6v6l4 2"></path>
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                    </svg>
-                                </button>
-                                <button class="task-btn delete-btn" onclick="requestDeleteTask(this)" title="Excluir tarefa">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
-                                         stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="3 6 5 6 21 6"></polyline>
-                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4
-                                                 a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                        <line x1="10" y1="11" x2="10" y2="17"></line>
-                                        <line x1="14" y1="11" x2="14" y2="17"></line>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="task-progress-container">
-                            <input type="range" class="task-progress" min="0" max="100" value="0" oninput="updateProgress(this)">
-                            <span class="task-progress-value">0%</span>
+        // Montar o conteúdo da tarefa
+        taskElement.innerHTML = `
+            <div class="task-header">
+                <input type="checkbox" class="task-item" onchange="toggleTaskComplete(this)">
+                <div class="task-content">
+                    <span class="task-priority ${priorityClass}">${priorityText}</span>
+                    <h3 class="task-title">${taskName} ${taskCategory ? `<span class="task-category">• ${taskCategory}</span>` : ''}</h3>
+                    ${taskDescription ? `<p class="task-description">${taskDescription}</p>` : ''}
+                    ${stepsListHTML}
+
+                    <div class="task-meta">
+                        <span class="task-date">${formattedDate}</span>
+
+                        ${taskResponsible ? `
+                        <span class="task-responsible">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" 
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                              <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            ${taskResponsible}
+                        </span>` : ''}
+
+                        ${taskTimeEstimated ? `
+                        <span class="task-time">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            ${taskTimeEstimated}
+                        </span>` : ''}
+
+                        ${taskRecurrence && taskRecurrence !== "none" ? `
+                        <span class="task-recurrence">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="1 4 1 10 7 10"></polyline>
+                                <polyline points="23 20 23 14 17 14"></polyline>
+                                <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10"></path>
+                                <path d="M3.51 15A9 9 0 0 0 18.36 18.36L23 14"></path>
+                            </svg>
+                            ${taskRecurrence}
+                        </span>` : ''}
+
+                        <div class="task-actions">
+                            <button class="task-btn steps-btn" onclick="openTaskStepsModal(this)" title="Ver passos">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap='round' stroke-linejoin='round'>
+                                    <path d="M12 6v6l4 2"></path>
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                </svg>
+                            </button>
+                            <button class="task-btn delete-btn" onclick="requestDeleteTask(this)" title="Excluir tarefa">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap='round' stroke-linejoin='round'>
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                </svg>
+                            </button>
                         </div>
                     </div>
+
+                    <div class="task-progress-container">
+                        <input type="range" class="task-progress" min="0" max="100" value="0" oninput="updateProgress(this)">
+                        <span class="task-progress-value">0%</span>
+                    </div>
                 </div>
-            `;
+            </div>
+        `;
 
-            tasksWrapper.insertBefore(taskElement, tasksWrapper.firstChild);
+        tasksWrapper.insertBefore(taskElement, tasksWrapper.firstChild);
 
-            // Limpar campos
-            input.value = "";
-            description.value = "";
-            dueDate.value = "";
-            responsible.value = "";
-            timeEstimated.value = "";
+        // Limpar campos
+        input.value = "";
+        description.value = "";
+        dueDate.value = "";
+        responsible.value = "";
+        timeEstimated.value = "";
+        category.value = "";
 
-            // Mostrar notificação
-            showNotification("Tarefa criada com sucesso!");
+        // Notificação
+        showNotification("Tarefa criada com sucesso!");
 
-            steps = [];
-            renderSteps();
-            input.focus();
+        steps = [];
+        renderSteps();
+        input.focus();
 
-            updateTasksCount();
-            saveTasks();
-        } else {
-            input.style.borderColor = "var(--error)";
-            input.focus();
-            setTimeout(() => { input.style.borderColor = "var(--border)"; }, 1000);
-        }
+        updateTasksCount();
+        saveTasks();
+    } else {
+        input.style.borderColor = "var(--error)";
+        input.focus();
+        setTimeout(() => { input.style.borderColor = "var(--border)"; }, 1000);
     }
+}
+
 
     function toggleTaskComplete(checkbox) {
         const task = checkbox.closest(".task");
@@ -203,18 +236,22 @@
         tasks.forEach(task => {
             const stepsList = task.querySelectorAll(".task-steps li");
             const progressSlider = task.querySelector(".task-progress");
-            tasksData.push({
-                title: task.querySelector(".task-title").textContent,
-                description: task.querySelector(".task-description")?.textContent || "",
-                date: task.querySelector(".task-date").textContent,
-                priority: task.querySelector(".task-priority")?.textContent || "Média Prioridade",
-                responsible: task.querySelector(".task-responsible")?.textContent.replace("Responsável: ","") || "",
-                timeEstimated: task.querySelector(".task-time")?.textContent.replace("Tempo: ","") || "",
-                recurrence: task.querySelector(".task-recurrence")?.textContent.replace("Recorrência: ","") || "",
-                steps: Array.from(stepsList).map(li=>li.textContent),
-                completed: task.classList.contains("completed"),
-                progress: progressSlider ? progressSlider.value : 0
-            });
+                tasksData.push({
+                    // Pega apenas o título sem a categoria
+                    title: task.querySelector(".task-title").childNodes[0].textContent.trim(),
+                    description: task.querySelector(".task-description")?.textContent || "",
+                    date: task.querySelector(".task-date").textContent,
+                    priority: task.querySelector(".task-priority")?.textContent || "Média Prioridade",
+                    responsible: task.querySelector(".task-responsible")?.textContent.replace("Responsável: ","") || "",
+                    timeEstimated: task.querySelector(".task-time")?.textContent.replace("Tempo: ","") || "",
+                    recurrence: task.querySelector(".task-recurrence")?.textContent.replace("Recorrência: ","") || "",
+                    steps: Array.from(task.querySelectorAll(".task-steps li")).map(li => li.textContent),
+                    category: task.querySelector(".task-category")?.textContent.replace("• ","") || "",
+                    completed: task.classList.contains("completed"),
+                    progress: task.querySelector(".task-progress")?.value || 0
+                });
+
+
         });
         localStorage.setItem("tasks", JSON.stringify(tasksData));
         updateTasksCount();
@@ -242,7 +279,9 @@ taskElement.innerHTML = `
     <input type="checkbox" class="task-item" ${taskData.completed?'checked':''} onchange="toggleTaskComplete(this)">
     <div class="task-content">
         <span class="task-priority ${priorityClass}">${taskData.priority}</span>
-        <h3 class="task-title">${taskData.title}</h3>
+<h3 class="task-title">
+    ${taskData.title} ${taskData.category ? `<span class="task-category">• ${taskData.category}</span>` : ''}
+</h3>
         ${taskData.description?`<p class="task-description">${taskData.description}</p>`:''}
         ${taskData.steps.length > 0 ? `<ul class="task-steps">${taskData.steps.map(s=>`<li>${s}</li>`).join('')}</ul>` : ''}
 
