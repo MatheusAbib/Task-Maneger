@@ -6,7 +6,7 @@ O **NexusTask** é um gerenciador de tarefas moderno e **totalmente responsivo**
 
 ## ✨ Funcionalidades
 
-- **Adição de tarefas** com título, descrição, data e prioridade  
+- **Adição de tarefas** com título, descrição, data, prioridade, categoria, tempo, recorrência e reponsável
 - **Sistema de priorização** (Alta, Média, Baixa)  
 - **Marcação de conclusão** com efeito visual  
 - **Armazenamento local** (LocalStorage)  
