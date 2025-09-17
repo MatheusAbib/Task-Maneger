@@ -11,7 +11,9 @@ O **NexusTask** é um gerenciador de tarefas moderno e **totalmente responsivo**
 - **Marcação de conclusão** com efeito visual  
 - **Armazenamento local** (LocalStorage)  
 - **Design responsivo** para desktop, tablet e mobile  
-- **Contador de tarefas** (totais e concluídas)  
+- **Contador de tarefas** (totais e concluídas)
+- **Contador de passos** (Adicione ou exclua)
+- **Modo escuro e claro**
 
 ---
 
